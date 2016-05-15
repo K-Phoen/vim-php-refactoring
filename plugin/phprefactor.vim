@@ -8,12 +8,13 @@ func! PhpRefactorShowMenu() range
     echohl None
     echo '(em) Extract Method'
     echo '(lv) rename Local Variable'
+    echo '(cp) rename Class Property'
     echo '(li) Local variable to Instance variable'
     echo '(ou) Optimize Use'
     echo ''
     echo '(c) Cancel'
     echo ''
-    
+
     let choice = nr2char(getchar())
     if choice == 'c'
         return
@@ -24,6 +25,8 @@ func! PhpRefactorShowMenu() range
         call PhpRefactorExtractMethod(a:firstline, a:lastline)
     elseif choice == 'lv'
         call PhpRefactorRenameLocalVariable()
+    elseif choice == 'cp'
+        call PhpRefactorRenameProperty()
     elseif choice == 'li'
         call PhpRefactorLocalVariableToInstanceVariable()
     elseif choice == 'ou'
@@ -78,6 +81,22 @@ func! PhpRefactorRenameLocalVariable()
     let args = [lineNo, oldName, newName]
 
     call PhpRefactorRunCommand('rename-local-variable', args)
+endfunc
+
+func! PhpRefactorRenameProperty()
+    " check the file has been saved
+    if &modified
+        echom 'Cannot refactor; file contains unsaved changes'
+        return
+    endif
+
+    let oldName = expand('<cword>')
+    let lineNo = line('.')
+    let newName = input('Enter new property name: ')
+
+    let args = [lineNo, oldName, newName]
+
+    call PhpRefactorRunCommand('rename-property', args)
 endfunc
 
 func! PhpRefactorOptimizeUse()
