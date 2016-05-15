@@ -8,7 +8,7 @@ func! PhpRefactorShowMenu() range
     echohl None
     echo '(em) Extract Method'
     echo '(lv) rename Local Variable'
-    echo '(cp) rename Class Property'
+    echo '(rp) rename Class Property'
     echo '(li) Local variable to Instance variable'
     echo '(ou) Optimize Use'
     echo ''
@@ -25,7 +25,7 @@ func! PhpRefactorShowMenu() range
         call PhpRefactorExtractMethod(a:firstline, a:lastline)
     elseif choice == 'lv'
         call PhpRefactorRenameLocalVariable()
-    elseif choice == 'cp'
+    elseif choice == 'rp'
         call PhpRefactorRenameProperty()
     elseif choice == 'li'
         call PhpRefactorLocalVariableToInstanceVariable()
